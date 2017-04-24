@@ -10,12 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.jaxb.PageAdapter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by Hung on 4/23/2017.
@@ -69,5 +75,44 @@ public class BookController {
         String json = gson.toJson(jsonObject);
         return json;
     }
+
+    @PostMapping(value = "/getBookById")
+    @ResponseBody
+    public Book getBookById(@RequestParam(value="id") int id){
+        Book book = bookService.getBookById(id);
+        return book;
+
+    }
+
+    @PostMapping(value = "/saveBook", produces = "application/x-www-form-urlencoded", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ModelAndView saveBook(@ModelAttribute("book") Book book, BindingResult result, HttpServletResponse response, HttpServletRequest request){
+        logger.info("=====book: "+ book.getDescription() + "===id: "+ book.getId());
+        ModelAndView model = new ModelAndView("redirect:booklist");
+        book.setDateUpdate(new Timestamp(System.currentTimeMillis()));
+        Book saveBook = bookService.update(book);
+        return model;
+
+    }
+
+    @PostMapping(value = "/addBook", produces = "application/x-www-form-urlencoded", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ModelAndView addBook(@ModelAttribute("book") Book book, BindingResult result, HttpServletResponse response, HttpServletRequest request){
+        logger.info("=====book: "+ book.getDescription() + "===id: "+ book.getId());
+        ModelAndView model = new ModelAndView("redirect:booklist");
+        book.setDateUpdate(new Timestamp(System.currentTimeMillis()));
+        book.setDateCreate(new Timestamp(System.currentTimeMillis()));
+        Book saveBook = bookService.update(book);
+        return model;
+
+    }
+
+    @PostMapping(value = "/deleteBook")
+    public ModelAndView deleteBook(@RequestParam(value="id") int id, HttpServletResponse response){
+        bookService.removeBook(id);
+        ModelAndView model = new ModelAndView("redirect:booklist");
+        response.setStatus(response.SC_OK);
+        return model;
+    }
+
+
 
 }

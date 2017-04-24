@@ -58,7 +58,7 @@ public class Book implements Serializable{
     }
 
     @Basic
-    @Column(name = "date_create", nullable = true)
+    @Column(name = "date_create", nullable = true, updatable = false)
     public Timestamp getDateCreate() {
         return dateCreate;
     }

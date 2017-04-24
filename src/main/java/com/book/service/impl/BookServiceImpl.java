@@ -30,4 +30,19 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll(pageRequest);
     }
 
+    @Override
+    public Book getBookById(int id) {
+        return bookRepository.findById(id);
+    }
+
+    @Override
+    public Book update(Book book) {
+        return bookRepository.save(book);
+    }
+
+    @Override
+    public void removeBook(int id) {
+        bookRepository.delete(id);
+    }
+
 }

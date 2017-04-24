@@ -28,9 +28,6 @@ public class HomeController {
 
     @RequestMapping("/home")
     String home(){
-        Book book = bookRepository.findById(1);
-        List<UserVO> userVOs = customRepository.getUserVOByUserName("admin@test.test");
-        log.info("book========" + book.getTitle());
         return "site.index";
     }
 
