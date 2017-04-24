@@ -37,4 +37,9 @@ public class HomeController {
     }
 
 
+    @RequestMapping("/booklisting")
+    String list(){
+        return "site.booklisting";
+    }
+
 }

@@ -20,6 +20,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/booklist.jsp" />
     </definition>
 
+    <definition name="site.booklisting" extends="layout.basic">
+        <put-attribute name="title" value="Book List" />
+        <put-attribute name="body" value="/WEB-INF/jsp/book-listing.jsp" />
+    </definition>
+
     <definition name="site.login" extends="layout.basic">
         <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
     </definition>
