@@ -41,26 +41,43 @@
 
 </body>
 
-<script>
-
-//    $(document).ready(function() {
-//        var table = $('table#example').DataTable({
-//            'ajax' : '/data/books',
-//            'serverSide' : true,
-//            columns : [
-//                {
-//                    data: 'title'
-//                },
-//                {
-//                    data: 'author'
-//                },
-//                {
-//                    data: 'id'
-//                }
-//            ]
-//        });
-//    });
-
+<script type="text/javascript">
+    //Plugin fetch paging data
+    jQuery.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
+    {
+        return {
+            "iStart":         oSettings._iDisplayStart,
+            "iEnd":           oSettings.fnDisplayEnd(),
+            "iLength":        oSettings._iDisplayLength,
+            "iTotal":         oSettings.fnRecordsTotal(),
+            "iFilteredTotal": oSettings.fnRecordsDisplay(),
+            "iPage":          oSettings._iDisplayLength === -1 ?
+                    0 : Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
+            "iTotalPages":    oSettings._iDisplayLength === -1 ?
+                    0 : Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
+        };
+    };
+    $(document).ready(function() {
+        var url = "data/booklists";
+        $('#example').dataTable({
+            "bProcessing": true,
+            "bServerSide": true,
+            "sort": "position",
+            "bStateSave": false,
+            "iDisplayLength": 10,
+            "iDisplayStart": 0,
+            "fnDrawCallback": function(){
+                //alert('Current page number: '+ this.fnPagingInfo().iPage);
+            },
+            "sAjaxSource": url,
+            "columns": [
+                {"data": "title"},
+                {"data":"author"},
+                {"data": "id"},
+                {"data": "id"}
+            ]
+        });
+    });
 </script>
 
 </html>

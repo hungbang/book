@@ -12,5 +12,5 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
  */
 
 public interface BookService {
-    Page<Book> bookList(Pageable p);
+    Page<Book> bookList(Integer pageNumber);
 }
