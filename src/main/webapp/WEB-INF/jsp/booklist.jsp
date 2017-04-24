@@ -14,34 +14,31 @@
     <title>List Book</title>
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <style>
+
+        .btn.btn-primary.btn-add {
+            margin-bottom: 20px;
+        }
+
+    </style>
 </head>
 <body>
+           <button type="button" class="btn btn-primary btn-add">Add More</button>
+           <form:form action="" method="GET">
 
-
-        <button type="button" class="btn btn-primary btn-add">Add More</button>
-
-
-        <table id="example" class="display" cellspacing="0" width="100%">
-            <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th></th>
-                <th></th>
-            </tr>
-
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-
-            </thead>
-            <tfoot>
-
-            </tfoot>
-        </table>
+               <table width="100%" style="border: 3px;background: rgb(243, 244, 248);"><tr><td>
+                   <table id="example" class="display" cellspacing="0" width="100%">
+                       <thead>
+                       <tr>
+                           <th>Title</th>
+                           <th>Author</th>
+                           <th></th>
+                           <th></th>
+                       </tr>
+                       </thead>
+                   </table>
+               </td></tr></table>
+           </form:form>
 
 
 
@@ -52,7 +49,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modal Header</h4>
+                        <h4 class="modal-title">Update Book</h4>
                     </div>
                     <div class="modal-body">
                         <form:form id="book-form" action="saveBook" method="POST" modelAttribute="book">
@@ -105,16 +102,20 @@
         $('#example').dataTable({
             "bProcessing": true,
             "bServerSide": true,
-            "sort": "position",
+            "sort": "title",
             "bStateSave": false,
             "iDisplayLength": 10,
             "iDisplayStart": 0,
             "fnDrawCallback": function(){
-                //alert('Current page number: '+ this.fnPagingInfo().iPage);
+//                alert('Current page number: '+ this.fnPagingInfo().iPage);
             },
             "sAjaxSource": url,
             "columns": [
-                {"data": "title"},
+                {"data": null,
+                    "render": function(data, type, row, meta){
+                        return '<a href="viewBook/'+data.id+'" >'+data.title+'</a>'
+                    }
+                },
                 {"data":"author"},
                 {
                     "data": "id",
@@ -162,6 +163,7 @@
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
         $("#book-form").attr('action', 'saveBook');
+        $(".modal-title").text("Update Book");
         $.ajax({
             url: 'getBookById',
             type: 'POST',
@@ -188,6 +190,7 @@
 
     $(".btn-add").click(function(e){
         $("#book-form").attr('action', 'addBook');
+        $(".modal-title").text("Add New Book");
         $("#myModal").modal('show');
     });
 </script>

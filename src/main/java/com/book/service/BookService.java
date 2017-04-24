@@ -12,11 +12,12 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
  */
 
 public interface BookService {
-    Page<Book> bookList(Integer pageNumber);
+    Page<Book> bookList(Integer pageNumber, Integer pageDisplayLength);
 
     Book getBookById(int id);
 
     Book update(Book book);
 
     void removeBook(int id);
+
 }

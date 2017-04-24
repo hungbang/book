@@ -32,6 +32,9 @@
     <definition name="site.bookdetail" extends="layout.basic">
         <put-attribute name="body" value="/WEB-INF/jsp/bookdetail.jsp" />
     </definition>
+    <definition name="site.detail" extends="layout.basic">
+        <put-attribute name="body" value="/WEB-INF/jsp/book-detail.jsp" />
+    </definition>
 
     <definition name="site.bookedition" extends="layout.basic">
         <put-attribute name="body" value="/WEB-INF/jsp/bookedition.jsp" />

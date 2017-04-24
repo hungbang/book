@@ -3,17 +3,11 @@ package com.book.controller;
 import com.book.model.Book;
 import com.book.service.BookService;
 import com.book.vo.BookJsonObject;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.jaxb.PageAdapter;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * Created by Hung on 4/23/2017.
@@ -44,8 +37,8 @@ public class BookController {
 
     @GetMapping(value = "/data/booklists", produces = "application/json")
     @ResponseBody
-    public String databooks(HttpServletRequest req){
-        ModelAndView view = new ModelAndView("site.booklist");
+    public BookJsonObject databooks(HttpServletRequest req){
+//        ModelAndView view = new ModelAndView("site.booklist");
 
         Integer pageNumber = 0;
         Integer pageDisplayLength = 0;
@@ -65,15 +58,12 @@ public class BookController {
                     .getParameter("iDisplayLength"));
 
         }
-
-        Page<Book> pageBooks = bookService.bookList(pageNumber);
+        Page<Book> pageBooks = bookService.bookList(pageNumber/pageDisplayLength, pageDisplayLength);
         BookJsonObject jsonObject = new BookJsonObject();
         jsonObject.setAaData(pageBooks.getContent());
-        jsonObject.setiTotalDisplayRecords(pageBooks.getTotalPages());
-        jsonObject.setiTotalRecords(pageBooks.getTotalPages());
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(jsonObject);
-        return json;
+        jsonObject.setiTotalDisplayRecords((int)pageBooks.getTotalElements());
+        jsonObject.setiTotalRecords((int)pageBooks.getTotalElements());
+        return jsonObject;
     }
 
     @PostMapping(value = "/getBookById")
@@ -113,6 +103,14 @@ public class BookController {
         return model;
     }
 
+
+    @GetMapping("/viewBook/{id}")
+    public ModelAndView viewBook(@PathVariable(value="id") int id){
+        ModelAndView model = new ModelAndView("site.bookdetail");
+        Book book = bookService.getBookById(id);
+        model.addObject("book", book);
+        return model;
+    }
 
 
 }

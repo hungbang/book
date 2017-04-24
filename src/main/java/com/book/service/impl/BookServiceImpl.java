@@ -20,13 +20,12 @@ import java.util.List;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private static final Integer PAGE_SIZE = 10;
     @Autowired
     private BookRepository bookRepository;
 
     @Override
-    public Page<Book> bookList(Integer pageNumber) {
-        PageRequest pageRequest = new PageRequest(pageNumber, PAGE_SIZE);
+    public Page<Book> bookList(Integer pageNumber, Integer pageDisplayLength) {
+        PageRequest pageRequest = new PageRequest(pageNumber, pageDisplayLength);
         return bookRepository.findAll(pageRequest);
     }
 

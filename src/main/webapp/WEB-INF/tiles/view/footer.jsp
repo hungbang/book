@@ -9,8 +9,20 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        #footer {
+            height: 100px;
+            text-align: center !important;
+            color: white;
+            background-color: darkcyan;
+            vertical-align: bottom;
+            padding-top: 41px;
+        }
+    </style>
 </head>
 <body>
-
+    <div id="footer">
+        Copyright © HungBang. 2017/04/24
+    </div>
 </body>
 </html>
