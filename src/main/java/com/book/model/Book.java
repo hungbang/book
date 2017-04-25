@@ -48,7 +48,8 @@ public class Book implements Serializable{
     }
 
     @Basic
-    @Column(name = "description", nullable = true)
+    @Lob
+    @Column(name = "description", nullable = true )
     public String getDescription() {
         return description;
     }
