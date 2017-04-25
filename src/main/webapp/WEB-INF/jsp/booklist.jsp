@@ -12,8 +12,8 @@
 <html>
 <head>
     <title>List Book</title>
-    <meta name="_csrf" content="${_csrf.token}"/>
-    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <%--<meta name="_csrf" content="${_csrf.token}"/>--%>
+    <%--<meta name="_csrf_header" content="${_csrf.headerName}"/>--%>
     <style>
 
         .btn.btn-primary.btn-add {
@@ -54,9 +54,9 @@
                     <div class="modal-body">
                         <form:form id="book-form" action="saveBook" method="POST" modelAttribute="book">
                             <input id="id" type="hidden" name="id" value="" />
-                            <input type="hidden"
-                                   name="${_csrf.parameterName}"
-                                   value="${_csrf.token}"/>
+                            <%--<input type="hidden"--%>
+                                   <%--name="${_csrf.parameterName}"--%>
+                                   <%--value="${_csrf.token}"/>--%>
                             <div class="form-group">
                                 <label for="title">Title:</label>
                                 <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title">
@@ -136,15 +136,15 @@
 
     });
     function deleteBook(id){
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
+//        var token = $("meta[name='_csrf']").attr("content");
+//        var header = $("meta[name='_csrf_header']").attr("content");
         $.ajax({
             url: 'deleteBook',
             type: 'POST',
             data: {id: id},
-            beforeSend: function(xhr){
-                xhr.setRequestHeader(header, token);
-            }
+//            beforeSend: function(xhr){
+//                xhr.setRequestHeader(header, token);
+//            }
         })
             .done(function(data) {
                 location.reload();
@@ -160,17 +160,17 @@
 
 
     function editBook(id){
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
+//        var token = $("meta[name='_csrf']").attr("content");
+//        var header = $("meta[name='_csrf_header']").attr("content");
         $("#book-form").attr('action', 'saveBook');
         $(".modal-title").text("Update Book");
         $.ajax({
             url: 'getBookById',
             type: 'POST',
             data: {id: id},
-            beforeSend: function(xhr){
-                xhr.setRequestHeader(header, token);
-            }
+//            beforeSend: function(xhr){
+//                xhr.setRequestHeader(header, token);
+//            }
         })
             .done(function(data) {
                 console.log("success");
@@ -191,6 +191,10 @@
     $(".btn-add").click(function(e){
         $("#book-form").attr('action', 'addBook');
         $(".modal-title").text("Add New Book");
+        $("#title").val('');
+        $("#author").val('');
+        $("#description").val('');
+        $("#id").val('');
         $("#myModal").modal('show');
     });
 </script>

@@ -38,22 +38,18 @@ public class BookController {
     @GetMapping(value = "/data/booklists", produces = "application/json")
     @ResponseBody
     public BookJsonObject databooks(HttpServletRequest req){
-//        ModelAndView view = new ModelAndView("site.booklist");
-
         Integer pageNumber = 0;
         Integer pageDisplayLength = 0;
         String checkError = null;
         String searchParameter = req.getParameter("sSearch");
 
         if (null != req.getParameter("iDisplayStart")) {
-            logger.info("111111111: "+ req.getParameter("iDisplayStart"));
             //add more +1 if using Hibernate , else not need.
             //pageNumber = (Integer.valueOf(req.getParameter("iDisplayStart")) / 10) + 1;
             pageNumber = Integer.valueOf(req.getParameter("iDisplayStart"));
         }
 
         if(null != req.getParameter("iDisplayLength")){
-            logger.info("222222222:: "+ req.getParameter("iDisplayLength"));
             pageDisplayLength = Integer.valueOf(req
                     .getParameter("iDisplayLength"));
 
@@ -76,7 +72,6 @@ public class BookController {
 
     @PostMapping(value = "/saveBook", produces = "application/x-www-form-urlencoded", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ModelAndView saveBook(@ModelAttribute("book") Book book, BindingResult result, HttpServletResponse response, HttpServletRequest request){
-        logger.info("=====book: "+ book.getDescription() + "===id: "+ book.getId());
         ModelAndView model = new ModelAndView("redirect:booklist");
         book.setDateUpdate(new Timestamp(System.currentTimeMillis()));
         Book saveBook = bookService.update(book);
@@ -86,7 +81,6 @@ public class BookController {
 
     @PostMapping(value = "/addBook", produces = "application/x-www-form-urlencoded", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ModelAndView addBook(@ModelAttribute("book") Book book, BindingResult result, HttpServletResponse response, HttpServletRequest request){
-        logger.info("=====book: "+ book.getDescription() + "===id: "+ book.getId());
         ModelAndView model = new ModelAndView("redirect:booklist");
         book.setDateUpdate(new Timestamp(System.currentTimeMillis()));
         book.setDateCreate(new Timestamp(System.currentTimeMillis()));
