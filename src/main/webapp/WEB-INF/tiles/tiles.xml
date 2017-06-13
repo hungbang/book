@@ -44,4 +44,8 @@
         <put-attribute name="body" value="/WEB-INF/jsp/index.jsp" />
     </definition>
 
+    <definition name="site.upload" extends="layout.basic">
+        <put-attribute name="body" value="/WEB-INF/jsp/upload.jsp" />
+    </definition>
+
 </tiles-definitions>
